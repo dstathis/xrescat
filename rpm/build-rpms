@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+FILE_URL=$(cat xrescat.spec | grep 'Source0:' | cut -f 2)
+FILE_NAME=${FILE_URL##*/}
+
+mkdir -p rpm-artifacts
+curl -o ${FILE_NAME} ${FILE_URL}
+mock -r fedora-36-x86_64 --spec xrescat.spec --sources $(dirname $0)/${FILE_NAME} --resultdir rpm-artifacts
